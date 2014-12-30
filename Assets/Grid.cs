@@ -13,7 +13,7 @@ public class Grid : MonoBehaviour {
 	public Vector2 gridWorldSize;
 	public float nodeRadius;
 	Node[,] grid;
-	
+
 	float nodeDiameter;
 	int gridSizeX, gridSizeY;
 	
@@ -27,6 +27,11 @@ public class Grid : MonoBehaviour {
 		if (recalculategrid){
 			CreateGrid();
 			recalculategrid = false;}
+	}
+	public int MaxSize{
+		get{
+			return gridSizeX*gridSizeY;
+		}
 	}
 	
 	void CreateGrid() {
@@ -75,18 +80,20 @@ public class Grid : MonoBehaviour {
 	}
 	
 	public List<Node> path;
-	void OnDrawGizmos() {
+ /*void OnDrawGizmos() {
 		Gizmos.DrawWireCube(transform.position,new Vector3(gridWorldSize.x,1,gridWorldSize.y));
 		
 		if (grid != null) {
 			foreach (Node n in grid) {
 				Gizmos.color = (n.walkable)?Color.gray:Color.black;
-				if (path != null)
+
+			if (path != null)
 					if (path.Contains(n))
-						Gizmos.color = Color.white;
-				Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter));
+				
+					Gizmos.color = Color.white;
+				Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter-nodeDiameter+0.5f));
 			}
-		}
-	}
+		} 
+	} */
 }
 
