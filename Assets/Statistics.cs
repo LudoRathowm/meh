@@ -10,8 +10,8 @@ public class Statistics : MonoBehaviour {
 	string PersonalityAdjective = "nigger";
 	public int	Strength,Dexterity,Vitality,Intelligence; //the attributes
 	public string Personality;
-    int PersonalityStrenght;
-	public int  HitPoints,Mana, HPRegen,ManaRegen, PotionEfficiency,DmgReduction, MeleeAttack, RangedAttack,ShootPerRoundMultiplier,ActionsPerTurn, Precision, Movement, MagicAttack,CastDuration, PhysicalDefence,MagicDefence, PhysicalStatusRes,MagicalStatusRes,BattleStatusResist; // the vitals
+   public int PersonalityStrenght;
+	public int  HitPoints,Mana, HPRegen,ManaRegen, PotionEfficiency,DmgReduction, MeleeAttack, RangedAttack,ShootPerRoundMultiplier,ActionsPerTurn, Precision, Movement,MovementSpeed, MagicAttack,CastDuration, PhysicalDefence,MagicDefence, PhysicalStatusRes,MagicalStatusRes,BattleStatusResist,WeightLimit; // the vitals
 	// string Impulsive,Carefree,Calm,Active,Attent,Precise,Cheerful,Resolute,Energic,Cynical,Restless,Tireless; // personalities
 
 	//STRENGHT MODIFIERS//
@@ -21,13 +21,14 @@ public class Statistics : MonoBehaviour {
 	float Str2Weight = 75;
 	float Str2Pdef = 50f;
 	float Str2atkspd = 0.2f;
-	float Str2mv = 0.1f; //str2movmenet
-
+	float Str2mv = 0.4f; //str2movmenet
+	float Strmvs = 0.1f;
 	//DEXTERITY MODIFIERS//
 	float Dex2Ranged = 1.7f;
 	float Dex2Atkspd = 2.5f;
 	float Dex2Precision = 10000f;
-	float Dex2Movement = 0.6f;
+	float Dex2Movement = 0.2f;
+	float Dex2MovementS = 0.7f;
 	float Dex2Magic = 0.1f;
 	float Dex2Cast = 0.06f;
 	float Dex2Bullets = 0.15f;
@@ -41,8 +42,10 @@ public class Statistics : MonoBehaviour {
 	float Vit2mn = 30;
 	float Vit2BSR = 0.5f; //battle status resist
 	float Vit2mv = 0.1f; //vit2movement
-	float vit2minusmagic = 0.05f; //vitality decreases magic because yes
+	float Vit2mvs = 0.3f; //movspeed
+	//float vit2minusmagic = 0.05f; //vitality decreases magic because yes
 	float vit2potion= 0.08f;
+	float vit2weight = 30;
 
 	//INTELLIGENCE MODIFIERS//
 	float Int2Magic = 0.08f;
@@ -50,19 +53,22 @@ public class Statistics : MonoBehaviour {
 	float Int2ManaR = 3f;
 	float Int2Mdef = 50f;
 	float Int2msr = 1;
+	float Int2Weight = 20; //smart weight partitioning m8
 	float Int2mv = 0.1f; //int2movement
 	float Int2cast = 0.1f;
    //VITAL MODIFIERS FOR DIMINISHING RETURNS//
-	float lessHp = 16f;
-	float lesshpr = 1.7f;
-	float lessmn = 16f;
-	float lessmnr = 1.7f;
-	float lessdr = 0.01f;
+	//float lessHp = 16f;
+	//float lesshpr = 1.7f;
+	//float lessmn = 16f;
+	//float lessmnr = 1.7f;
+	//float lessdr = 0.01f;
 	float extraatkm = 0.1f;
 	float extraatkr = 0.2f;
 	float movementoffset = 20;
 	float totalmovementmodifier = 2;
-	float efficencyoffset = 20;
+	float totalspeedmodifier = 1.6f;
+	float speedoffset = 5;
+	//float efficencyoffset = 20;
 	// Use this for initialization
 	void Start () {
 	
@@ -78,6 +84,7 @@ public class Statistics : MonoBehaviour {
 	}
 
 	void AdjustVitals(){
+		WeightLimit = Mathf.FloorToInt(Strength*Str2Weight+Intelligence*Int2Weight+Vitality*vit2weight);
 		PotionEfficiency = (Mathf.FloorToInt(1000*Mathf.Exp(vit2potion*Vitality)/2980));
 		if (PotionEfficiency < 20)
 			PotionEfficiency = 20;
@@ -95,11 +102,14 @@ public class Statistics : MonoBehaviour {
 			ActionsPerTurn = 1;
 		Precision = 100*(Mathf.FloorToInt(Mathf.Log (Dexterity)*Dex2Precision))/46050;
 		Movement = Mathf.FloorToInt(Mathf.Log ((Dexterity*Dex2Movement+Intelligence*Int2mv+Strength*Str2mv+Vitality*Vit2mv))*totalmovementmodifier+movementoffset);
+		MovementSpeed = Mathf.FloorToInt(Mathf.Log ((Dexterity*Dex2MovementS+Strength*Strmvs+Vitality*Vit2mvs))*totalspeedmodifier+speedoffset);
 		PhysicalDefence = Mathf.FloorToInt(Mathf.Log (Strength*Str2Pdef)*Strength/10);
 		MagicDefence = Mathf.FloorToInt(Mathf.Log (Intelligence*Int2Mdef)*Intelligence/10);
 		PhysicalStatusRes = Mathf.FloorToInt(100*(Mathf.Log (Vitality*Vit2psr)*Vitality/4)/115);
 		MagicalStatusRes = Mathf.FloorToInt(Mathf.Log (Intelligence)*Int2msr)*Intelligence/4;
 		BattleStatusResist = Mathf.FloorToInt(Mathf.Log (Vitality*Vit2BSR)*Vitality/6);
+		if (BattleStatusResist<0)
+			BattleStatusResist=0;
 		CastDuration = Mathf.FloorToInt(113-(100*Mathf.Exp(Dexterity*Dex2Cast)+Int2cast*Intelligence)/413);
 		ShootPerRoundMultiplier = Mathf.FloorToInt(Dexterity*Dex2Bullets-Mathf.Log(Dexterity));
 		if (ShootPerRoundMultiplier<0)

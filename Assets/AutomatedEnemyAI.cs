@@ -5,7 +5,7 @@ public class AutomatedEnemyAI : MonoBehaviour {
 	public bool melee;
 	public bool playerinsight;
 	GameObject player;
-	float rotationspeed = 555;
+
 	float reloadtimer = 0;
 	public float _reloadtime;
 	bool canshoot = false;
@@ -26,7 +26,7 @@ public class AutomatedEnemyAI : MonoBehaviour {
 		playerinsight = GetComponent<EnemySight>().playerinsight;
 		if (playerinsight && target){
 			transform.LookAt(target.position);
-		
+			GetComponent<Unit>().playeronsight = true;
 			//if (!melee)
 				Autoshoot();
 
