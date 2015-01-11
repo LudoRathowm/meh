@@ -18,6 +18,7 @@ public class Class : MonoBehaviour {
 		Magichemistguy,
 		Blackguy
 		}
+	public bool Leader;
 	public Classes ThisCharacter;
 	public float
     HitPointsCModifier,
@@ -51,7 +52,32 @@ public class Class : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		UpdateClassStats();
+		UpdateClassSkills();
 	}
+
+	void UpdateClassSkills(){
+		if (ThisCharacter == Classes.Testguy)
+			GetComponent<Skills>().Testskills = true;
+		if (Leader)
+			GetComponent<Skills>().Leaderskills = true;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	void UpdateClassStats(){
 		if (ThisCharacter == Classes.Blackguy){
 			HitPointsCModifier = 0.7f;

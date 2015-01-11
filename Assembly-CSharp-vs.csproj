@@ -50,19 +50,28 @@
      <Compile Include="Assets\AutomatedEnemyAI.cs" />
      <Compile Include="Assets\Class.cs" />
      <Compile Include="Assets\EnemySight.cs" />
+     <Compile Include="Assets\GameMasterScript.cs" />
      <Compile Include="Assets\Gears.cs" />
      <Compile Include="Assets\Grid.cs" />
      <Compile Include="Assets\Heap.cs" />
      <Compile Include="Assets\Node.cs" />
      <Compile Include="Assets\PathRequestManager.cs" />
      <Compile Include="Assets\Pathfinding.cs" />
+     <Compile Include="Assets\Skills.cs" />
      <Compile Include="Assets\Statistics.cs" />
      <Compile Include="Assets\Status.cs" />
      <Compile Include="Assets\Unit.cs" />
      <Compile Include="Assets\Vitals.cs" />
+ <Reference Include="Assembly-UnityScript-firstpass">
+ <HintPath>C:/Users/Marco/Documents/meh/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
+      <Project>{012E7008-4598-8EEC-8D54-E84AA86FC5CB}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
